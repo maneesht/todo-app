@@ -4,6 +4,9 @@
 /dist
 /tmp
 
+
+src/assets/firebase-config.ts
+
 # dependencies
 /node_modules
 

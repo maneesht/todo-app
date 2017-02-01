@@ -1,0 +1,29 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <md-input-container fxFlex="60">
+      <input md-input [(ngModel)]="newTodo">
+    </md-input-container>
+    <button fxFlex="10" md-raised-button color="primary" (click)="addTodo()" placeholder="title"> Add Item </button>
+</div>
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap.sm="wrap" fxLayoutWrap.md="wrap">
+  <md-card fxFlex="50" fxFlex.sm="100" [@flyInOut]="'in'" *ngFor="let todo of todos | async; trackBy: trackByTodo">
+    <md-card-title> {{todo.title}} </md-card-title>
+    <md-card-content>
+      <md-list>
+        <md-list-item *ngFor="let list of todo?.list; let i = index;">
+          <md-checkbox [(ngModel)]="list.done" [@todoState]="list.done" (change)="toggleDone(i,todo)"> {{list.name}} </md-checkbox>
+          <span style="margin-left: 10px;" [@flyInOut]="list.done ? 'in' : undefined"(click)="removeItem(i, todo)"> <i class="fa fa-remove" style="color: red;" aria-hidden="true"></i></span>
+        </md-list-item>
+        <md-list-item>
+          <md-input-container>
+            <input md-input [(ngModel)]="todo.newItem">
+          </md-input-container>
+          <button md-raised-button color="accent" (click)="addToList(todo)"> Add Todo </button>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+    <md-card-actions>
+      <button md-button color="accent" (click)="toggleCart(todo)"><i class="fa" [ngClass]="todo.cart ? 'fa-shopping-cart' : 'fa-cart-plus'" aria-hidden="true"></i></button>
+      <button md-button color="warn" (click)="removeTodo(todo)"> <i class="fa fa-remove" aria-hidden="true"></i> </button>
+    </md-card-actions>
+  </md-card>
+</div>
