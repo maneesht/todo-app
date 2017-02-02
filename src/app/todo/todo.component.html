@@ -1,11 +1,11 @@
 <div fxLayout="row" fxLayoutAlign="center center">
     <md-input-container fxFlex="60">
-      <input md-input [(ngModel)]="newTodo">
+      <input md-input placeholder="Todo Title" [(ngModel)]="newTodo">
     </md-input-container>
     <button fxFlex="10" md-raised-button color="primary" (click)="addTodo()" placeholder="title"> Add Item </button>
 </div>
-<div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutWrap.sm="wrap" fxLayoutWrap.md="wrap">
-  <md-card fxFlex="50" fxFlex.sm="100" [@flyInOut]="'in'" *ngFor="let todo of todos | async; trackBy: trackByTodo">
+<div fxLayout="row" fxLayoutAlign=" center">
+  <md-card fxFlex.md="50%" fxFlex="100%" [@flyInOut]="'in'" *ngFor="let todo of todos | async; trackBy: trackByTodo">
     <md-card-title> {{todo.title}} </md-card-title>
     <md-card-content>
       <md-list>
@@ -15,7 +15,7 @@
         </md-list-item>
         <md-list-item>
           <md-input-container>
-            <input md-input [(ngModel)]="todo.newItem">
+            <input md-input placeholder="New Todo Item" [(ngModel)]="todo.newItem">
           </md-input-container>
           <button md-raised-button color="accent" (click)="addToList(todo)"> Add Todo </button>
         </md-list-item>

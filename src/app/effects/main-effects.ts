@@ -14,6 +14,7 @@ export class MainEffects {
         .ofType('PULL_ARRAY_FROM_FIREBASE')
         .switchMap(() => {
             return this.firebaseData.getList()
+            .take(1)    
             .switchMap(result => Observable.of({type: "GOT_FIREBASE_ARRAY", payload: result}));
         });
     @Effect({dispatch: false}) addTodo$ = this.action$
