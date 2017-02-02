@@ -31,9 +31,9 @@ const update = (state, action: Action) => {
             return state;
         case UPDATEDONE:
             if(state === action.payload.item) {
-                let newArr = action.payload.item.list.splice();
-                let obj = newArr[action.payload.item.index];
-                obj.done = !obj.done;
+                let newArr = action.payload.item.list.slice();
+                let index = action.payload.index;
+                newArr[index].done = !!newArr[index].done;
                 return Object.assign({}, state, {list: newArr});
             }
             return state;

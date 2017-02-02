@@ -2,19 +2,20 @@
 
 @include md-core();
 
+
 $ae-brand-indigo: (
-    50: #e0ebf3,
-    100: #b3cee1,
-    200: #80adce,
-    300: #4d8cba,
-    400: #2673ab,
-    500: #005a9c,
-    600: #005294,
-    700: #00488a,
-    800: #003f80,
-    A200: #6a9bff,
-    A400: #3778ff,
-    A700: #1e67ff,
+    50: #EDE7F6,
+    100: #D1C4E9,
+    200: #B39DDB,
+    300: #9575CD,
+    400: #7E57C2,
+    500: #673AB7,
+    600: #5E35B1,
+    700: #512DA8,
+    800: #4527A0,
+    A200: #B39DDB,
+    A400: #673AB7,
+    A700: #5E35B1,
     contrast: (
         50: $black-87-opacity,
         100: $black-87-opacity,
@@ -71,7 +72,7 @@ $ae-accent-palette:  md-palette($ae-brand-orange);
 $ae-warn-palette: md-palette($md-red);
 
 // include the custom theme components into a theme object
-$ae-main-theme: md-light-theme($ae-primary-palette, $ae-accent-palette, $ae-warn-palette);
+$ae-main-theme: md-dark-theme($ae-primary-palette, $ae-accent-palette, $ae-warn-palette);
 
 //select primary and secondary colors
 $primary-color: map_get($ae-primary-palette, 500);

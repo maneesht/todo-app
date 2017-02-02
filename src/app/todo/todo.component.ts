@@ -65,14 +65,15 @@ export class TodoComponent implements OnInit {
   }
   toggleDone($index, todoItem) {
     this.store.dispatch({type: "UPDATEDONE", payload: {item: todoItem, index: $index}});
-    console.log(todoItem);
-    /*this.findUpdated(todoItem).take(1).subscribe((item) => {
+    this.findUpdated(todoItem).take(1).subscribe((item) => {
       this.store.dispatch({ type: "FIREBASE_UPDATE", payload: Object.assign({}, item )})
-    });*/
+    });
   }
   toggleCart(todoItem) {
     this.store.dispatch({type: "UPDATECART", payload: todoItem});
-    this.dataService.updateTodo(todoItem);
+    this.findUpdated(todoItem).take(1).subscribe((item) => {
+      this.store.dispatch({ type: "FIREBASE_UPDATE", payload: Object.assign({}, item) })
+    });
   }
   addTodo() {
     let todo = { title: this.newTodo, list: [] };
@@ -89,12 +90,15 @@ export class TodoComponent implements OnInit {
   }
   addToList(item) {
     this.store.dispatch({type: "ADDTOLIST", payload: {newItem: {name: item.newItem}, addTo: item}});
-    this.findUpdated(item).take(1).subscribe((item) => {
-      this.store.dispatch({ type: "FIREBASE_UPDATE", payload: item });
+    this.findUpdated(item).take(1).subscribe((todoItem) => {
+      this.store.dispatch({ type: "FIREBASE_UPDATE", payload: todoItem });
     });
   }
   trackByTodo(index, item) {
-    return index;
+    return index.$key;
+  }
+  trackByListItem(index, item) {
+    return index.name;
   }
   ngOnInit() {
   }

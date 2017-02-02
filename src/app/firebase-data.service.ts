@@ -13,12 +13,9 @@ export class FirebaseDataService {
   removeTodo(todo) {
     return this.todoList.remove(todo);
   }
-  findTodo(todoItem) {
-    return this.todoList.flatMap(todos => todos.filter(todo => todo.$key === todoItem.$key));
-  }
   updateTodo(todo) {
       let key = todo.$key;
-      let updatedTodo = Object.assign({}, todo);
+      let updatedTodo = JSON.parse(JSON.stringify(todo));
       delete updatedTodo.$exists;
       delete updatedTodo.$key;
       this.todoList.update(key, updatedTodo);
