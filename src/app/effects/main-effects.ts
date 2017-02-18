@@ -30,10 +30,9 @@ export class MainEffects {
             this.firebaseData.addTodo(payload).then((dataResolved) => this.firebaseData.addUserTodo(dataResolved.key));
         });
     @Effect() pullArrayFromFirebase$ = this.action$
-        .ofType('PULL_ARRAY_FROM_FIREBASE')
+        .ofType('PULL_ALL_TODOS')
         .switchMap(() => {
             return this.firebaseData.getList()
-            .take(1)
             .switchMap(result => Observable.of({type: "GOT_FIREBASE_ARRAY", payload: result}));
         });
     @Effect({dispatch: false}) addTodo$ = this.action$
