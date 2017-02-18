@@ -1,2 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/font-awesome/css/font-awesome.min.css";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import "https://fonts.googleapis.com/css?family=Roboto";
+
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: Roboto;
+}
+md-grid-tile.calendar {
+    border-left: 1px solid #BDBDBD;
+    border-top: 1px solid #BDBDBD;
+    border-bottom: 1px solid #BDBDBD;
+    background-color: white;
+}
+
+md-grid-tile.calendar md-grid-tile-header {
+    background-color: white;
+    color: black;
+}
+
+
+md-grid-tile.calendar:hover {
+    background-color: #BDBDBD;
+}

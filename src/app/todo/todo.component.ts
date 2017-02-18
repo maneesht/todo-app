@@ -3,18 +3,12 @@ import { FirebaseDataService } from '../firebase-data.service';
 import { FirebaseListObservable } from 'angularfire2';
 import { Observable } from 'rxjs/observable';
 import { Store } from '@ngrx/store';
-import 'rxjs/add/operator/take';
-export interface TodoListItem {
-  name: string;
-  done: boolean;
-}
-export interface TodoItem {
-  title: string;
-  list: TodoListItem[];
-}
-interface AppState {
-  todos: TodoItem[];
-}
+
+import { TodoItem } from '../models/todo-item';
+import * as fromRoot from '../reducers';
+import * as fromTodo from '../reducers/todos';
+import * as todos from '../actions/todos';
+
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
@@ -54,52 +48,25 @@ interface AppState {
 export class TodoComponent implements OnInit {
   newTodo: string;
   todos: Observable<TodoItem[]>;
-  firebaseTodos: FirebaseListObservable<any[]>;
-  constructor(private store: Store<AppState>, private dataService: FirebaseDataService) {
-    this.todos = store.select(state => state.todos);
-    this.store.dispatch({ type: "PULL_ARRAY_FROM_FIREBASE" });
+  currentItem = {};
+  constructor(private store: Store<fromRoot.State>, private dataService: FirebaseDataService) {
+    this.todos = store.select(state => state.todos).map(state => state.todos);
+    this.store.dispatch(new todos.GetTodosAction());
   }
 
-  removeTodo(todoItem) {
-    this.store.dispatch({ type: "FIREBASE_REMOVE_TODO", payload: todoItem});
+  removeTodo(todoItem: TodoItem) {
+    this.store.dispatch(new todos.RemoveTodoAction(todoItem));
   }
-  toggleDone($index, todoItem) {
-    this.store.dispatch({type: "UPDATEDONE", payload: {item: todoItem, index: $index}});
-    this.findUpdated(todoItem).take(1).subscribe((item) => {
-      this.store.dispatch({ type: "FIREBASE_UPDATE", payload: Object.assign({}, item )})
-    });
-  }
-  toggleCart(todoItem) {
-    this.store.dispatch({type: "UPDATECART", payload: todoItem});
-    this.findUpdated(todoItem).take(1).subscribe((item) => {
-      this.store.dispatch({ type: "FIREBASE_UPDATE", payload: Object.assign({}, item) })
-    });
-  }
+  
   addTodo() {
-    let todo = { title: this.newTodo, list: [] };
-    this.store.dispatch({ type: "ADD", payload: todo});
+    let todo:any = { title: this.newTodo };
+    this.store.dispatch(new todos.AddTodoAction(todo));
   }
-  findUpdated(item) {
-    return this.store.flatMap(store => store.todos.filter(todo => {return todo && todo.title === item.title}));
+
+  trackByTodo(index: number, item: any) {
+    return item.$key;
   }
-  removeItem($index, item) {
-    this.store.dispatch({type: "REMOVEFROMLIST", payload: {item: item, index: $index}});
-    this.findUpdated(item).take(1).subscribe((item)=> {
-      this.store.dispatch({ type: "FIREBASE_UPDATE", payload: Object.assign({}, item )})
-    });
-  }
-  addToList(item) {
-    this.store.dispatch({type: "ADDTOLIST", payload: {newItem: {name: item.newItem}, addTo: item}});
-    this.findUpdated(item).take(1).subscribe((todoItem) => {
-      this.store.dispatch({ type: "FIREBASE_UPDATE", payload: todoItem });
-    });
-  }
-  trackByTodo(index, item) {
-    return index.$key;
-  }
-  trackByListItem(index, item) {
-    return index.name;
-  }
+  
   ngOnInit() {
   }
 }
