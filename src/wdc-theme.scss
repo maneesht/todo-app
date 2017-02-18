@@ -21,15 +21,15 @@ $ae-brand-indigo: (
         100: $black-87-opacity,
         200: $black-87-opacity,
         300: $black-87-opacity,
-        500: white,
-        600: white,
-        700: white,
-        800: white,
-        900: white,
+        500: $black-87-opacity,
+        600: $black-87-opacity,
+        700: $black-87-opacity,
+        800: $black-87-opacity,
+        900: $black-87-opacity,
         A100: $black-87-opacity,
         A200: $black-87-opacity,
         A400: $black-87-opacity,
-        A700: white,
+        A700: $black-87-opacity
     )
  );
 
@@ -66,17 +66,20 @@ $ae-brand-orange: (
    )
  );
 
+
 // mandatory stuff for theming
-$ae-primary-palette: md-palette($ae-brand-indigo);
-$ae-accent-palette:  md-palette($ae-brand-orange);
-$ae-warn-palette: md-palette($md-red);
+$ae-primary-palette: md-palette($md-blue);
+$ae-accent-palette:  md-palette($md-indigo);
 
 // include the custom theme components into a theme object
-$ae-main-theme: md-dark-theme($ae-primary-palette, $ae-accent-palette, $ae-warn-palette);
+$ae-main-theme: md-dark-theme($ae-primary-palette, $ae-accent-palette);
 
 //select primary and secondary colors
-$primary-color: map_get($ae-primary-palette, 500);
+$primary-color: map_get($md-blue, 500);
 $secondary-color: map_get($ae-accent-palette, 500);
 
+.md-input-placeholder {
+    color: $primary-color !important;
+}
 // include the custom theme object into the angular material theme
 @include angular-material-theme($ae-main-theme);

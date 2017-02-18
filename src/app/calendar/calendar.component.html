@@ -1,0 +1,25 @@
+<md-toolbar color="primary" fxLayout="row" fxLayoutAlign="center center">
+  <button fxFlex='none' md-mini-fab color="primary" (click)="subtractMonth()"><md-icon> arrow_backward </md-icon></button>
+  <h2 fxFlex> {{ currentMonth + ' ' + currentYear }} </h2>
+  <button fxFlex="nogrow" md-mini-fab color="primary" (click)="addMonth()"><md-icon> arrow_forward </md-icon></button>
+</md-toolbar>
+<md-grid-list cols="7" rowHeight="40px" gutterSize="0">
+  <md-grid-tile *ngFor="let weekday of weekDays">
+    <md-grid-tile-header>
+    {{weekday}}
+    </md-grid-tile-header>
+  </md-grid-tile>
+</md-grid-list>
+<md-grid-list cols="7" rowHeight="25%" gutterSize="0">
+  <md-grid-tile *ngFor="let day of days;" class="calendar">
+    <md-grid-tile-header>
+      <div> {{day.date()}}</div>
+    </md-grid-tile-header>
+      <div *ngIf="(calendarData | async)?.todos" fxLayout="column" fxLayoutWrap="wrap" fxLayoutAlign="start center">
+        <div *ngFor="let todo of (calendarData | async)?.todos[day.toISOString()]" style="margin: 3px; border-radius: 4px; color: white; border: 2px solid lightblue; background-color: #33B5E5;" (click)="selectTodo(todo)">
+          {{todo.title}}
+        </div>
+      </div>
+  </md-grid-tile>
+</md-grid-list>
+<button md-fab (click)="select()" style="color: white; top: auto; right: 30px;bottom: 20px;left: auto;position: fixed;"><md-icon>add circle</md-icon></button>

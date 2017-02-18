@@ -7,11 +7,20 @@ export const UPDATEDONE = "UPDATEDONE";
 export const UPDATECART = "UPDATECART";
 export const UPDATEDATA = "UPDATEDATA";
 export const GOTARRAY = "GOT_FIREBASE_ARRAY";
-const update = (state, action: Action) => {
-    switch(action.type) {
+export interface TodoItem {
+    date: string;
+    title: string;
+    $key: string;
+}
+export interface State {
+    todos: TodoItem[]
+}
+let initialState: State = { todos: [] };
+const update = (state: TodoItem, action: Action) => {
+    /*switch(action.type) {
         case ADDTOLIST: 
             if(state === action.payload.addTo) {
-                let newArr;
+                let newArr:any;
                 if(state.list)
                     newArr = state.list;
                 else
@@ -42,27 +51,30 @@ const update = (state, action: Action) => {
                 let cart = action.payload.cart;
                 return Object.assign({}, state, {cart: !cart});
             }
-    }
+            return state;
+    }*/
 }
-export function todoReducer(state = [], action: Action) {
+export function todoReducer(state = initialState, action: Action) {
     switch(action.type) {
         case ADD:
-            return [
-                ...state,
-                action.payload
-            ]
+            return Object.assign({}, state)
+            .todos.concat(action.payload);
         case REMOVE:
-            return state.filter(todo => todo !== action.payload);
+            return state.todos.filter((todo:any) => todo !== action.payload);
         case UPDATEDATA:
             return action.payload;
         case GOTARRAY:
-            return action.payload;
+            let s = Object.assign({});
+            s.todos = [
+                ...action.payload
+            ];
+            return s;
         case ADDTOLIST:
-        case UPDATECART:
         case UPDATEDONE:
         case UPDATECART:
         case REMOVEFROMLIST:
-                return state.map(todo => update(todo, action));
+                return state;
+                //return state.map((todo:any) => update(todo, action));
         default:
             return state;
     }

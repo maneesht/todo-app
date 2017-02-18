@@ -1,8 +1,9 @@
-<div fxLayout="row" fxLayoutAlign="center">
-  <md-card>
-    <md-card-title> Let's be productive </md-card-title>
-    <md-card-content>
-      <button md-raised-button routerLink="todo"> Continue </button>
-    </md-card-content>
-</md-card>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <md-card fxFlexAlign="center">
+      <md-card-title> Welcome </md-card-title>
+      <md-card-content >
+        <button md-raised-button (click)="login()"> Log In </button>
+        <button md-raised-button (click)="logout()"> Log Out </button>
+      </md-card-content>
+    </md-card>
 </div>

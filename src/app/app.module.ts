@@ -6,8 +6,10 @@ import { MaterialModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { EffectsModule } from '@ngrx/effects';
+import { CalendarModule } from 'angular-calendar';
+import { Md2Module }  from 'md2';
 
 import { AppComponent } from './app.component';
 import { TodoComponent } from './todo/todo.component';
@@ -16,13 +18,26 @@ import { todoReducer } from './reducers/todos';
 import { FirebaseDataService } from './firebase-data.service';
 import { MainEffects } from './effects/main-effects';
 import { firebaseConfig } from '../assets/firebase-config'; //excluded from Github
+import { TodoListComponent } from './todo/todo-list/todo-list.component';
+import { CalendarComponent, AddTodoDialogComponent } from './calendar/calendar.component';
+import { AuthGuard } from './guards/auth-guard.service';
+import { reducer } from './reducers';
+import { calendarReducer } from './reducers/calendar';
+import { FirebaseAuthService } from './auth/firebase-auth';
 
+const firebaseAuthConfig = {
+  provider: AuthProviders.Google,
+  method: AuthMethods.Popup
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoComponent,
-    HomeComponent
+    HomeComponent,
+    TodoListComponent,
+    CalendarComponent,
+    AddTodoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -30,15 +45,19 @@ import { firebaseConfig } from '../assets/firebase-config'; //excluded from Gith
     HttpModule,
     FlexLayoutModule.forRoot(),
     MaterialModule.forRoot(),
-    StoreModule.provideStore({ todos: todoReducer }),
+    Md2Module.forRoot(),
+    StoreModule.provideStore(reducer),
     RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      { path: 'todo', component: TodoComponent }
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent},
+      { path: 'todo', component: TodoComponent, canActivate: [AuthGuard] },
+      { path: 'calendar', component: CalendarComponent , canActivate: [AuthGuard]},
     ]),
-    AngularFireModule.initializeApp(firebaseConfig),
-    EffectsModule.run(MainEffects)
+    AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
+    EffectsModule.run(MainEffects),
   ],
-  providers: [FirebaseDataService],
-  bootstrap: [AppComponent]
+  providers: [FirebaseDataService, AuthGuard, FirebaseAuthService],
+  bootstrap: [AppComponent],
+  entryComponents: [AddTodoDialogComponent]
 })
 export class AppModule { }
