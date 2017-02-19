@@ -4,7 +4,6 @@
     </md-input-container>
     <button fxFlex="10" md-raised-button color="primary" (click)="addTodo()" placeholder="title"> Add Item </button>
 </div>
-<!--<todo-list list="todos | async"></todo-list>-->
 <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="stretch" fxLayoutAlign="center">
   <md-card fxFlex.gt-sm="33" fxFlex="100" [@flyInOut]="'in'" *ngFor="let todo of todos | async; trackBy: trackByTodo">
     <md-card-title> {{todo.title}} </md-card-title>

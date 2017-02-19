@@ -18,7 +18,6 @@ import { todoReducer } from './reducers/todos';
 import { FirebaseDataService } from './firebase-data.service';
 import { MainEffects } from './effects/main-effects';
 import { firebaseConfig } from '../assets/firebase-config'; //excluded from Github
-import { TodoListComponent } from './todo/todo-list/todo-list.component';
 import { CalendarComponent, AddTodoDialogComponent } from './calendar/calendar.component';
 import { AuthGuard } from './guards/auth-guard.service';
 import { reducer } from './reducers';
@@ -35,7 +34,6 @@ const firebaseAuthConfig = {
     AppComponent,
     TodoComponent,
     HomeComponent,
-    TodoListComponent,
     CalendarComponent,
     AddTodoDialogComponent
   ],

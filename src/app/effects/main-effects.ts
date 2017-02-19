@@ -3,11 +3,13 @@ import { AngularFire,FirebaseListObservable } from 'angularfire2';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { TodoItem } from '../models/todo-item';
+import * as todos from '../actions/todos';
 import { FirebaseDataService } from '../firebase-data.service';
 import { FirebaseAuthService } from '../auth/firebase-auth';
 @Injectable()
 export class MainEffects {
-    todoList: FirebaseListObservable<any>;
+    todoList: FirebaseListObservable<TodoItem[]>;
     constructor(private action$: Actions, private af: AngularFire, private firebaseData: FirebaseDataService, private auth: FirebaseAuthService) {
         this.todoList = this.af.database.list('/todos');
     }
@@ -30,13 +32,13 @@ export class MainEffects {
             this.firebaseData.addTodo(payload).then((dataResolved) => this.firebaseData.addUserTodo(dataResolved.key));
         });
     @Effect() pullArrayFromFirebase$ = this.action$
-        .ofType('PULL_ALL_TODOS')
+        .ofType(todos.ActionTypes.GET_ALL_TODOS)
         .switchMap(() => {
             return this.firebaseData.getList()
-            .switchMap(result => Observable.of({type: "GOT_FIREBASE_ARRAY", payload: result}));
+            .switchMap((result: TodoItem[]) => Observable.of(new todos.ReceivedTodoAction(result)));
         });
     @Effect({dispatch: false}) addTodo$ = this.action$
-        .ofType("ADD")
+        .ofType(todos.ActionTypes.ADD_TODO)
         .map(toPayload)
         .do((payload) => {
             this.firebaseData.addTodo(payload)
@@ -47,7 +49,7 @@ export class MainEffects {
             this.firebaseData.updateTodo(action.payload);
         });
     @Effect() removeTodo$ = this.action$
-        .ofType("REMOVE")
+        .ofType(todos.ActionTypes.REMOVE_TODO)
         .map(toPayload)
         .do((payload) => {
             this.firebaseData.removeTodoFromUser(payload);

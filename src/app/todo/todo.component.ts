@@ -3,13 +3,11 @@ import { FirebaseDataService } from '../firebase-data.service';
 import { FirebaseListObservable } from 'angularfire2';
 import { Observable } from 'rxjs/observable';
 import { Store } from '@ngrx/store';
-import 'rxjs/add/operator/take';
+
+import { TodoItem } from '../models/todo-item';
 import * as fromRoot from '../reducers';
 import * as fromTodo from '../reducers/todos';
-export interface TodoListItem {
-  name: string;
-  done: boolean;
-}
+import * as todos from '../actions/todos';
 
 @Component({
   selector: 'app-todo',
@@ -49,24 +47,20 @@ export interface TodoListItem {
 
 export class TodoComponent implements OnInit {
   newTodo: string;
-  todos: Observable<any[]>;
-  firebaseTodos: FirebaseListObservable<any[]>;
+  todos: Observable<TodoItem[]>;
   currentItem = {};
   constructor(private store: Store<fromRoot.State>, private dataService: FirebaseDataService) {
     this.todos = store.select(state => state.todos).map(state => state.todos);
-    this.store.dispatch({ type: "PULL_ALL_TODOS" });
+    this.store.dispatch(new todos.GetTodosAction());
   }
 
-  removeTodo(todoItem: any) {
-    this.store.dispatch({ type: "REMOVE", payload: todoItem});
+  removeTodo(todoItem: TodoItem) {
+    this.store.dispatch(new todos.RemoveTodoAction(todoItem));
   }
   
   addTodo() {
-    let todo:any = { title: this.newTodo, list: [] };
-    this.store.dispatch({ type: "ADD", payload: todo});
-  }
-  findUpdated(item:any) {
-    return this.store.flatMap(store => store.todos.todos.filter(todo => {return todo && todo.title === item.title}));
+    let todo:any = { title: this.newTodo };
+    this.store.dispatch(new todos.AddTodoAction(todo));
   }
 
   trackByTodo(index: number, item: any) {

@@ -16,7 +16,6 @@ import { TodoItem } from '../reducers/calendar';
 })
 
 export class CalendarComponent implements OnInit {
-
   events: any;
   days = [];
   weekDays: string[];
@@ -25,7 +24,6 @@ export class CalendarComponent implements OnInit {
   currentYear: string;
   original: Moment;
   selectedDay: Moment;
-  //start at beginning of the first week
   calendarData:Observable<any>;
   constructor(private dialog: MdDialog, private store: Store<fromRoot.State>) { 
     this.original = moment();
@@ -40,7 +38,6 @@ export class CalendarComponent implements OnInit {
     this.store.dispatch({type: "FIREBASE_CALENDAR_DATA"});
     this.store.dispatch({type: "GET_TODO_DATA"});
     this.calendarData = this.store.select(state => state.calendar);
-    this.calendarData.subscribe(data => console.log(data));
   }
   
   addMonth() {
@@ -117,7 +114,7 @@ export class CalendarComponent implements OnInit {
 export class AddTodoDialogComponent {
   todo: TodoItem;
   newItem: string;
-  remove: Boolean;
+  remove: boolean;
   constructor(public dialogRef: MdDialogRef<AddTodoDialogComponent>) {
     this.todo = {
       title: "",
