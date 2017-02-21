@@ -15,10 +15,8 @@
     <md-grid-tile-header>
       <div> {{day.date()}}</div>
     </md-grid-tile-header>
-      <div *ngIf="(calendarData | async)?.todos" fxLayout="column" fxLayoutWrap="wrap" fxLayoutAlign="start center">
-        <div *ngFor="let todo of (calendarData | async)?.todos[day.toISOString()]" style="margin: 3px; border-radius: 4px; color: white; border: 2px solid lightblue; background-color: #33B5E5;" (click)="selectTodo(todo)">
-          {{todo.title}}
-        </div>
+      <div *ngFor="let todo of getTodos(day.toISOString()) | async" style="margin: 3px; border-radius: 4px; color: white; border: 2px solid lightblue; background-color: #33B5E5;" (click)="selectTodo(todo)">
+        {{todo.title}}
       </div>
   </md-grid-tile>
 </md-grid-list>

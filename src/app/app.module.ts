@@ -8,7 +8,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { EffectsModule } from '@ngrx/effects';
-import { CalendarModule } from 'angular-calendar';
 import { Md2Module }  from 'md2';
 
 import { AppComponent } from './app.component';
@@ -23,6 +22,9 @@ import { AuthGuard } from './guards/auth-guard.service';
 import { reducer } from './reducers';
 import { calendarReducer } from './reducers/calendar';
 import { FirebaseAuthService } from './auth/firebase-auth';
+import { TodoListComponent } from './todo/todo-list/todo-list.component';
+import { AddTodoComponent } from './todo/add-todo/add-todo.component';
+import { CalendarDayComponent } from './calendar/calendar-day/calendar-day.component';
 
 const firebaseAuthConfig = {
   provider: AuthProviders.Google,
@@ -35,7 +37,10 @@ const firebaseAuthConfig = {
     TodoComponent,
     HomeComponent,
     CalendarComponent,
-    AddTodoDialogComponent
+    AddTodoDialogComponent,
+    TodoListComponent,
+    AddTodoComponent,
+    CalendarDayComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,7 @@ const firebaseAuthConfig = {
     RouterModule.forRoot([
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent},
-      { path: 'todo', component: TodoComponent, canActivate: [AuthGuard] },
+      { path: 'todo', component: TodoListComponent, canActivate: [AuthGuard] },
       { path: 'calendar', component: CalendarComponent , canActivate: [AuthGuard]},
     ]),
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),

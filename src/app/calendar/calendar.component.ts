@@ -31,7 +31,7 @@ export class CalendarComponent implements OnInit {
     this.currentMonth = moment().format('MMMM');
     this.currentYear = this.original.format('YYYY');
     this.currentDate = moment().startOf('month').startOf('week');
-    this.weekDays = moment.weekdays();
+    this.weekDays = moment.weekdaysMin();
     for(let i = 0; i < 35; i++) {
       let info = moment(this.currentDate).day(i);
       this.days.push(info);
@@ -66,6 +66,9 @@ export class CalendarComponent implements OnInit {
       }
     });
   }  
+  selectDay(day: Moment) {
+    this.selectedDay = day;
+  }
   selectTodo(todo) {
     let dialogRef = this.dialog.open(AddTodoDialogComponent, {height: "450px", width: "90%"});
     let duplicate:TodoItem = Object.assign({}, todo);
@@ -81,6 +84,10 @@ export class CalendarComponent implements OnInit {
         }
       }
     })
+  }
+
+  getTodos(dateString: string) { //in ISO format
+    return this.calendarData.map((data) => data.todos[dateString]);
   }
 
   subtractMonth() {

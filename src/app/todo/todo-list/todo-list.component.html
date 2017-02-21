@@ -1,0 +1,6 @@
+<div>
+  <add-todo (addTodo)="addTodo($event)"></add-todo>
+  <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="stretch" fxLayoutAlign="center">
+    <todo fxFlex.gt-sm="30" fxFlex="100" *ngFor="let todo of todos | async" [todo]="todo" (removeTodo)="removeTodo($event)"></todo>
+  </div>
+</div>

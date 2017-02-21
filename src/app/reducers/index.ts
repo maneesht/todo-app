@@ -1,8 +1,9 @@
 import { ActionReducer, combineReducers } from '@ngrx/store';
 import * as fromCalendar from './calendar';
 import * as fromTodos from './todos';
+import { CalendarState } from './calendar-state';
 export interface State {
-    calendar: fromCalendar.CalendarState;
+    calendar: CalendarState;
     todos: fromTodos.State;
 }
 export const reducers = {

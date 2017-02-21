@@ -1,4 +1,4 @@
-import { animate, Component, ChangeDetectionStrategy, OnInit, state, style, transition, trigger } from '@angular/core';
+import { animate, Component, ChangeDetectionStrategy, EventEmitter, Input, OnInit, Output, state, style, transition, trigger } from '@angular/core';
 import { FirebaseDataService } from '../firebase-data.service';
 import { FirebaseListObservable } from 'angularfire2';
 import { Observable } from 'rxjs/observable';
@@ -10,7 +10,7 @@ import * as fromTodo from '../reducers/todos';
 import * as todos from '../actions/todos';
 
 @Component({
-  selector: 'app-todo',
+  selector: 'todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,25 +46,15 @@ import * as todos from '../actions/todos';
 })
 
 export class TodoComponent implements OnInit {
+  @Input() todo: TodoItem;
+  @Output() removeTodo =  new EventEmitter<TodoItem>();
   newTodo: string;
-  todos: Observable<TodoItem[]>;
   currentItem = {};
-  constructor(private store: Store<fromRoot.State>, private dataService: FirebaseDataService) {
-    this.todos = store.select(state => state.todos).map(state => state.todos);
-    this.store.dispatch(new todos.GetTodosAction());
+  constructor() {
   }
 
-  removeTodo(todoItem: TodoItem) {
-    this.store.dispatch(new todos.RemoveTodoAction(todoItem));
-  }
-  
-  addTodo() {
-    let todo:any = { title: this.newTodo };
-    this.store.dispatch(new todos.AddTodoAction(todo));
-  }
-
-  trackByTodo(index: number, item: any) {
-    return item.$key;
+  remove(todoItem: TodoItem) {
+    this.removeTodo.emit(this.todo);
   }
   
   ngOnInit() {

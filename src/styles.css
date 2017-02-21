@@ -6,7 +6,6 @@
 html, body {
     margin: 0;
     height: 100%;
-    overflow-x: hidden;
     font-family: Roboto;
 }
 md-grid-tile.calendar {
@@ -14,6 +13,19 @@ md-grid-tile.calendar {
     border-top: 1px solid #BDBDBD;
     border-bottom: 1px solid #BDBDBD;
     background-color: white;
+}
+
+.calendar-list {
+}
+.calendar-item {
+    border: 1px solid gray;
+    min-height: 200px;
+    height: 30%;
+    max-height: 300px;
+}
+
+.md-grid-tile {
+    overflow: visible;
 }
 
 md-grid-tile.calendar md-grid-tile-header {

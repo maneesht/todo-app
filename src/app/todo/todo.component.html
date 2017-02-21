@@ -1,15 +1,11 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-    <md-input-container fxFlex="60">
-      <input md-input placeholder="Todo Title" color="primary" [(ngModel)]="newTodo">
+<md-card style="margin: 2px">
+  <md-card-title> 
+    <md-input-container>
+      <input md-input [(ngModel)]="todo.title" color="primary">
     </md-input-container>
-    <button fxFlex="10" md-raised-button color="primary" (click)="addTodo()" placeholder="title"> Add Item </button>
-</div>
-<div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="stretch" fxLayoutAlign="center">
-  <md-card fxFlex.gt-sm="33" fxFlex="100" [@flyInOut]="'in'" *ngFor="let todo of todos | async; trackBy: trackByTodo">
-    <md-card-title> {{todo.title}} </md-card-title>
-    <md-card-footer>
-      <button md-button color="accent" (click)="toggleCart(todo)"><i class="fa" [ngClass]="todo.cart ? 'fa-shopping-cart' : 'fa-cart-plus'" aria-hidden="true"></i></button>
-      <button md-button color="warn" (click)="removeTodo(todo)"> <i class="fa fa-remove" aria-hidden="true"></i> </button>
-    </md-card-footer>
-  </md-card>
-</div>
+  </md-card-title>
+  <md-card-footer>
+    <button md-button color="accent" (click)="toggleCart(todo)"><i class="fa" [ngClass]="todo.cart ? 'fa-shopping-cart' : 'fa-cart-plus'" aria-hidden="true"></i></button>
+    <button md-button color="warn" (click)="remove(todo)"> <i class="fa fa-remove" aria-hidden="true"></i> </button>
+  </md-card-footer>
+</md-card>

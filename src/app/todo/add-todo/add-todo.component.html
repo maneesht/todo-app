@@ -1,0 +1,6 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <md-input-container fxFlex="60">
+      <input md-input placeholder="Todo Title" color="primary" [(ngModel)]="newTodo">
+    </md-input-container>
+    <button fxFlex="10" md-raised-button color="primary" (click)="add()" placeholder="title"> Add Item </button>
+</div>

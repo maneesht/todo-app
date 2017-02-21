@@ -2,12 +2,9 @@ import { Action } from '@ngrx/store';
 
 import * as calendar from '../actions/calendar';
 import { TodoItem } from '../models/todo-item';
-import { CalendarTodo } from '../models/calendar-todo';
+import { CalendarState } from './calendar-state';
 
-export interface CalendarState {
-    $key: string;
-    todos: CalendarTodo;
-}
+
 let initialState: CalendarState = {
     $key: "",
     todos: {}
